@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js HTTP Methods</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+        }
+		 h2 {
+        margin-top: 40px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    h3 {
+        font-size: 20px;
+        margin-top: 20px;
+        color: #444;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        color: #666;
+    }
+
+    /* Add a border and padding to separate the content */
+    .http-explanation {
+        border-top: 1px solid #ccc;
+        padding-top: 20px;
+    }
+
+    /* Additional styles for the "Defenses Against HTTP Vulnerabilities" section */
+    .defenses {
+        margin-top: 40px;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Node.js HTTP Methods</h1>
+    </header>
+    <main>
+        <h2>Enter Your Information</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name"><br><br>
+        <label for="age">Age:</label>
+        <input type="text" id="age"><br><br>
+        <label for="gender">Gender:</label>
+        <input type="text" id="gender"><br><br>
+        <button onclick="submitInfo()">Submit Info</button>
+        <button onclick="sendGetRequest()" id="getRequestBtn" disabled>Get Data</button>
+        <button onclick="sendDeleteRequest()" id="deleteRequestBtn" disabled>Delete Data</button>
+        <button onclick="sendPutRequest()" id="putRequestBtn" disabled>Update Data</button>
+        <pre id="response"></pre>
+    </main>
+    <script>
+        const mockDatabase = {
+            name: '',
+            age: '',
+            gender: ''
+        };
+
+        function showAlert(message) {
+            alert(message);
+        }
+
+        function submitInfo() {
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+
+            mockDatabase.name = name;
+            mockDatabase.age = age;
+            mockDatabase.gender = gender;
+
+            showAlert("Info submitted! Now you can use the other buttons.");
+            document.getElementById('getRequestBtn').removeAttribute('disabled');
+            document.getElementById('deleteRequestBtn').removeAttribute('disabled');
+            document.getElementById('putRequestBtn').removeAttribute('disabled');
+        }
+
+        function sendGetRequest() {
+            showAlert("Sending a GET request to get your data.");
+            document.getElementById('response').textContent = `Name: ${mockDatabase.name}, Age: ${mockDatabase.age}, Gender: ${mockDatabase.gender}`;
+        }
+
+        function sendDeleteRequest() {
+            showAlert("Sending a DELETE request to delete your data.");
+            mockDatabase.name = '';
+            mockDatabase.age = '';
+            mockDatabase.gender = '';
+            document.getElementById('response').textContent = "Data deleted.";
+        }
+
+        function sendPutRequest() {
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+
+            showAlert("Sending a PUT request to update your data.");
+            mockDatabase.name = name;
+            mockDatabase.age = age;
+            mockDatabase.gender = gender;
+            document.getElementById('response').textContent = "Data updated.";
+        }
+    </script>
+	<main>
+    <!-- Existing content -->
+
+    <h2>HTTP Requests Explained</h2>
+    <p>HTTP (Hypertext Transfer Protocol) is a protocol used for transferring data over the internet. It's the foundation of data communication on the World Wide Web. Here's a step-by-step explanation of HTTP requests:</p>
+
+    <h3>1. Request Method</h3>
+    <p>The HTTP request method specifies the action to be performed on a resource. Common methods include GET, POST, PUT, and DELETE.</p>
+
+    <h3>2. Request URL</h3>
+    <p>The URL (Uniform Resource Locator) specifies the address of the resource you want to interact with. It includes the protocol (e.g., http:// or https://), domain, and path.</p>
+
+    <h3>3. Request Headers</h3>
+    <p>HTTP headers provide additional information about the request. Common headers include 'User-Agent', 'Content-Type', and 'Authorization'.</p>
+
+    <h3>4. Request Body</h3>
+    <p>Some HTTP methods, like POST and PUT, include a request body where you can send data, typically in JSON or form-encoded format.</p>
+
+    <h3>5. Server Processing</h3>
+    <p>The server processes the request, performs the requested action (e.g., retrieving data or updating resources), and generates a response.</p>
+
+    <h3>6. Response Status Code</h3>
+    <p>The HTTP response includes a status code indicating the result of the request. Common codes include 200 (OK), 404 (Not Found), and 500 (Internal Server Error).</p>
+
+    <h3>7. Response Headers</h3>
+    <p>Similar to request headers, response headers provide metadata about the response, such as 'Content-Type' and 'Cache-Control'.</p>
+
+    <h3>8. Response Body</h3>
+    <p>The response body contains the actual data returned by the server, which may be HTML, JSON, XML, or other formats.</p>
+
+    <h2>Defenses Against HTTP Vulnerabilities</h2>
+    <p>Securing your web applications against HTTP vulnerabilities is crucial. Here are some defenses:</p>
+
+    <h3>1. Input Validation</h3>
+    <p>Always validate and sanitize user input to prevent SQL injection, cross-site scripting (XSS), and other injection attacks.</p>
+
+    <h3>2. Authentication & Authorization</h3>
+    <p>Implement strong authentication mechanisms and ensure that users have the appropriate permissions to access resources.</p>
+
+    <h3>3. HTTPS</h3>
+    <p>Use HTTPS to encrypt data in transit and protect against eavesdropping and man-in-the-middle attacks.</p>
+
+    <h3>4. Web Application Firewalls (WAFs)</h3>
+    <p>Deploy WAFs to filter and monitor incoming traffic, blocking malicious requests and traffic patterns.</p>
+
+    <h3>5. Regular Updates</h3>
+    <p>Keep your web server, frameworks, and libraries up to date to patch known vulnerabilities.</p>
+
+    <p>These are just a few aspects of HTTP and its security. It's essential to stay informed and follow best practices to ensure the security of your web applications.</p>
+
+    <!-- Existing content -->
+</main>
+
+</body>
+</html>
